@@ -2,16 +2,17 @@ const request = require('request');
 
 const args = process.argv.slice(2);
 
-const apiRequest = function(type) {
-  request(`https://api.thecatapi.com/v1/breeds/search?name=${type}`, (error, response, body) => {
+const fetchBreedDescription = function(breedName, callback) {
+  request(`https://api.thecatapi.com/v1/breeds/search?name=${breedName}`, (error, response, body) => {
     if (error) {
-    //console.log(error);
+      callback(error, null);
     }
-    console.log(typeof body);
-    const data = JSON.parse(body);
-    console.log(data);
-    console.log(typeof data);
+
+    callback(null, body);
   });
 };
 
-apiRequest(args[0]);
+//fetchBreedDescription("sib", () => {})
+module.exports = {
+  fetchBreedDescription
+};
